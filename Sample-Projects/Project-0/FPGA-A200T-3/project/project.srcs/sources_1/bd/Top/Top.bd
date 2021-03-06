@@ -6,8 +6,7 @@
       "name": "Top",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "Hierarchical",
-      "tool_version": "2020.2",
-      "validated": "true"
+      "tool_version": "2020.2"
     },
     "design_tree": {
       "LED_BLINKER": {
@@ -27,10 +26,6 @@
         "mode": "Slave",
         "vlnv": "xilinx.com:interface:diff_clock_rtl:1.0",
         "parameters": {
-          "CAN_DEBUG": {
-            "value": "false",
-            "value_src": "default"
-          },
           "FREQ_HZ": {
             "value": "100000000"
           }
@@ -60,6 +55,12 @@
       },
       "emc_clk": {
         "direction": "I"
+      },
+      "serial_rx": {
+        "direction": "I"
+      },
+      "serial_tx": {
+        "direction": "O"
       }
     },
     "components": {

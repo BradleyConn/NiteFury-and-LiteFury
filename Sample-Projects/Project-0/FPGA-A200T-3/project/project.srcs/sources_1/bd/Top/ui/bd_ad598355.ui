@@ -1,30 +1,32 @@
 {
    "ActiveEmotionalView":"Default View",
    "Default View_ScaleFactor":"1.0",
-   "Default View_TopLeft":"-297,-64",
+   "Default View_TopLeft":"-317,-64",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0r4  2019-12-20 bk=1.5203 VDI=41 GEI=36 GUI=JA:10.0 TLS
 #  -string -flagsOSRD
-preplace port sys_clk -pg 1 -lvl 0 -x 0 -y 380 -defaultsOSRD
-preplace port emc_clk -pg 1 -lvl 0 -x 0 -y 150 -defaultsOSRD
-preplace portBus LED_A4 -pg 1 -lvl 3 -x 570 -y 380 -defaultsOSRD
-preplace portBus LED_A3 -pg 1 -lvl 3 -x 570 -y 160 -defaultsOSRD
-preplace portBus LED_A2 -pg 1 -lvl 3 -x 570 -y 20 -defaultsOSRD
-preplace portBus LED_A1 -pg 1 -lvl 3 -x 570 -y 60 -defaultsOSRD
-preplace inst LED_BLINKER -pg 1 -lvl 2 -x 440 -y 200 -defaultsOSRD
-preplace inst LED_BLINKER1 -pg 1 -lvl 2 -x 440 -y 380 -defaultsOSRD
-preplace inst xlconstant_1 -pg 1 -lvl 2 -x 440 -y 100 -defaultsOSRD
-preplace inst xlconstant_2 -pg 1 -lvl 2 -x 440 -y 0 -defaultsOSRD
-preplace inst util_ds_buf_0 -pg 1 -lvl 1 -x 170 -y 380 -defaultsOSRD
-preplace netloc LED_BLINKER1_LED_ON_L 1 2 1 NJ 380
-preplace netloc LED_BLINKER_LED_ON_L 1 2 1 550J 160n
-preplace netloc xlconstant_1_dout 1 2 1 550J 60n
-preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 NJ 380
-preplace netloc xlconstant_2_dout 1 2 1 550 0n
-preplace netloc emc_clk_1 1 0 2 NJ 150 300
-preplace netloc sys_clk_1 1 0 1 NJ 380
-levelinfo -pg 1 0 170 440 570
-pagesize -pg 1 -db -bbox -sgen -110 -60 710 540
+preplace port sys_clk -pg 1 -lvl 0 -x 0 -y 150 -defaultsOSRD
+preplace port emc_clk -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
+preplace port serial_rx -pg 1 -lvl 0 -x 0 -y 300 -defaultsOSRD
+preplace port serial_tx -pg 1 -lvl 3 -x 530 -y 370 -defaultsOSRD
+preplace portBus LED_A4 -pg 1 -lvl 3 -x 530 -y 150 -defaultsOSRD
+preplace portBus LED_A3 -pg 1 -lvl 3 -x 530 -y 60 -defaultsOSRD
+preplace portBus LED_A2 -pg 1 -lvl 3 -x 530 -y 340 -defaultsOSRD
+preplace portBus LED_A1 -pg 1 -lvl 3 -x 530 -y 240 -defaultsOSRD
+preplace inst LED_BLINKER -pg 1 -lvl 2 -x 400 -y 60 -defaultsOSRD
+preplace inst LED_BLINKER1 -pg 1 -lvl 2 -x 400 -y 150 -defaultsOSRD
+preplace inst xlconstant_1 -pg 1 -lvl 2 -x 400 -y 240 -defaultsOSRD
+preplace inst xlconstant_2 -pg 1 -lvl 2 -x 400 -y 340 -defaultsOSRD
+preplace inst util_ds_buf_0 -pg 1 -lvl 1 -x 150 -y 150 -defaultsOSRD
+preplace netloc LED_BLINKER1_LED_ON_L 1 2 1 NJ 150
+preplace netloc LED_BLINKER_LED_ON_L 1 2 1 NJ 60
+preplace netloc xlconstant_1_dout 1 2 1 NJ 240
+preplace netloc util_ds_buf_0_IBUF_OUT 1 1 1 NJ 150
+preplace netloc xlconstant_2_dout 1 2 1 NJ 340
+preplace netloc emc_clk_1 1 0 2 NJ 60 NJ
+preplace netloc sys_clk_1 1 0 1 NJ 150
+levelinfo -pg 1 0 150 400 530
+pagesize -pg 1 -db -bbox -sgen -110 -20 670 400
 "
 }
 0
