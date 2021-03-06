@@ -19,7 +19,9 @@
       },
       "xlconstant_1": "",
       "xlconstant_2": "",
-      "util_ds_buf_0": ""
+      "util_ds_buf_0": "",
+      "UART_RX_0": "",
+      "UART_TX_0": ""
     },
     "interface_ports": {
       "sys_clk": {
@@ -202,6 +204,64 @@
       "util_ds_buf_0": {
         "vlnv": "xilinx.com:ip:util_ds_buf:2.1",
         "xci_name": "Top_util_ds_buf_0_0"
+      },
+      "UART_RX_0": {
+        "vlnv": "xilinx.com:module_ref:UART_RX:1.0",
+        "xci_name": "Top_UART_RX_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "UART_RX",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_Clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_RX_Serial": {
+            "direction": "I"
+          },
+          "o_RX_DV": {
+            "direction": "O"
+          },
+          "o_RX_Byte": {
+            "direction": "O",
+            "left": "7",
+            "right": "0"
+          }
+        }
+      },
+      "UART_TX_0": {
+        "vlnv": "xilinx.com:module_ref:UART_TX:1.0",
+        "xci_name": "Top_UART_TX_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "UART_TX",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_Clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_TX_DV": {
+            "direction": "I"
+          },
+          "i_TX_Byte": {
+            "direction": "I",
+            "left": "7",
+            "right": "0"
+          },
+          "o_TX_Active": {
+            "direction": "O"
+          },
+          "o_TX_Serial": {
+            "direction": "O"
+          },
+          "o_TX_Done": {
+            "direction": "O"
+          }
+        }
       }
     },
     "interface_nets": {
@@ -234,7 +294,9 @@
       "util_ds_buf_0_IBUF_OUT": {
         "ports": [
           "util_ds_buf_0/IBUF_OUT",
-          "LED_BLINKER1/CLK"
+          "LED_BLINKER1/CLK",
+          "UART_RX_0/i_Clk",
+          "UART_TX_0/i_Clk"
         ]
       },
       "xlconstant_2_dout": {
@@ -247,6 +309,30 @@
         "ports": [
           "emc_clk",
           "LED_BLINKER/CLK"
+        ]
+      },
+      "serial_rx_1": {
+        "ports": [
+          "serial_rx",
+          "UART_RX_0/i_RX_Serial"
+        ]
+      },
+      "UART_RX_0_o_RX_DV": {
+        "ports": [
+          "UART_RX_0/o_RX_DV",
+          "UART_TX_0/i_TX_DV"
+        ]
+      },
+      "UART_RX_0_o_RX_Byte": {
+        "ports": [
+          "UART_RX_0/o_RX_Byte",
+          "UART_TX_0/i_TX_Byte"
+        ]
+      },
+      "UART_TX_0_o_TX_Serial": {
+        "ports": [
+          "UART_TX_0/o_TX_Serial",
+          "serial_tx"
         ]
       }
     }
