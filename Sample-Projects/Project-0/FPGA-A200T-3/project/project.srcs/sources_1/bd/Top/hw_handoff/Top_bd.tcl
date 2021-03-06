@@ -37,6 +37,13 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 # To test this script, run the following commands from Vivado Tcl console:
 # source Top_script.tcl
 
+
+# The design that will be created by this Tcl script contains the following 
+# module references:
+# UART_RX, UART_TX
+
+# Please add the sources of those modules before sourcing this Tcl script.
+
 # If there is no project opened, this script will create a
 # project, but make sure you do not have an existing project
 # <./myproj/project_1.xpr> in the current working folder.
@@ -295,6 +302,8 @@ proc create_root_design { parentCell } {
   set LED_A3 [ create_bd_port -dir O -from 0 -to 0 LED_A3 ]
   set LED_A4 [ create_bd_port -dir O -from 0 -to 0 LED_A4 ]
   set emc_clk [ create_bd_port -dir I emc_clk ]
+  set serial_rx [ create_bd_port -dir I serial_rx ]
+  set serial_tx [ create_bd_port -dir O serial_tx ]
 
   # Create instance: LED_BLINKER
   create_hier_cell_LED_BLINKER [current_bd_instance .] LED_BLINKER
@@ -302,6 +311,28 @@ proc create_root_design { parentCell } {
   # Create instance: LED_BLINKER1
   create_hier_cell_LED_BLINKER1 [current_bd_instance .] LED_BLINKER1
 
+  # Create instance: UART_RX_0, and set properties
+  set block_name UART_RX
+  set block_cell_name UART_RX_0
+  if { [catch {set UART_RX_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $UART_RX_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
+  # Create instance: UART_TX_0, and set properties
+  set block_name UART_TX
+  set block_cell_name UART_TX_0
+  if { [catch {set UART_TX_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $UART_TX_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: util_ds_buf_0, and set properties
   set util_ds_buf_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 util_ds_buf_0 ]
 
@@ -320,8 +351,12 @@ proc create_root_design { parentCell } {
   # Create port connections
   connect_bd_net -net LED_BLINKER1_LED_ON_L [get_bd_ports LED_A4] [get_bd_pins LED_BLINKER1/LED_ON_L]
   connect_bd_net -net LED_BLINKER_LED_ON_L [get_bd_ports LED_A3] [get_bd_pins LED_BLINKER/LED_ON_L]
+  connect_bd_net -net UART_RX_0_o_RX_Byte [get_bd_pins UART_RX_0/o_RX_Byte] [get_bd_pins UART_TX_0/i_TX_Byte]
+  connect_bd_net -net UART_RX_0_o_RX_DV [get_bd_pins UART_RX_0/o_RX_DV] [get_bd_pins UART_TX_0/i_TX_DV]
+  connect_bd_net -net UART_TX_0_o_TX_Serial [get_bd_ports serial_tx] [get_bd_pins UART_TX_0/o_TX_Serial]
   connect_bd_net -net emc_clk_1 [get_bd_ports emc_clk] [get_bd_pins LED_BLINKER/CLK]
-  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins LED_BLINKER1/CLK] [get_bd_pins util_ds_buf_0/IBUF_OUT]
+  connect_bd_net -net serial_rx_1 [get_bd_ports serial_rx] [get_bd_pins UART_RX_0/i_RX_Serial]
+  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins LED_BLINKER1/CLK] [get_bd_pins UART_RX_0/i_Clk] [get_bd_pins UART_TX_0/i_Clk] [get_bd_pins util_ds_buf_0/IBUF_OUT]
   connect_bd_net -net xlconstant_1_dout [get_bd_ports LED_A1] [get_bd_pins xlconstant_1/dout]
   connect_bd_net -net xlconstant_2_dout [get_bd_ports LED_A2] [get_bd_pins xlconstant_2/dout]
 
