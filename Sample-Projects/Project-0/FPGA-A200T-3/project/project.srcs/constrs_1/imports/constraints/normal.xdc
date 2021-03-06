@@ -2,11 +2,21 @@
 
 
 ###############################################################################
-# DDR
+# ~DDR~ Clocks
 ###############################################################################
 # Note: Most of the pins are set in the constraints file created by MIG
+#set_property IOSTANDARD LVDS_25 [get_ports sys_clk_clk_p]
+#set_property IOSTANDARD LVDS_25 [get_ports sys_clk_clk_n]
+
+set_property PACKAGE_PIN J19 [get_ports sys_clk_clk_p]
+set_property PACKAGE_PIN H19 [get_ports sys_clk_clk_n]
 set_property IOSTANDARD LVDS_25 [get_ports sys_clk_clk_p]
 set_property IOSTANDARD LVDS_25 [get_ports sys_clk_clk_n]
+set_property PACKAGE_PIN V22 [get_ports emc_clk]
+set_property IOSTANDARD LVCMOS33 [get_ports emc_clk]
+
+create_clock -period 5.000  -name ddr_clk [get_ports sys_clk_clk_p]
+create_clock -period 10.000 -name emc_clk [get_ports emc_clk]
 
 ###############################################################################
 # LEDs (4)
@@ -31,6 +41,20 @@ set_property PACKAGE_PIN H4 [get_ports {LED_A4}]
 set_property IOSTANDARD LVCMOS33 [get_ports {LED_A4}]
 set_property PULLUP true [get_ports {LED_A4}]
 set_property DRIVE 8 [get_ports {LED_A4}]
+
+###############################################################################
+# UART
+###############################################################################
+
+# serial:0.tx
+set_property LOC K2 [get_ports {serial_tx}]
+set_property SLEW FAST [get_ports {serial_tx}]
+set_property IOSTANDARD LVCMOS33 [get_ports {serial_tx}]
+
+# serial:0.rx
+set_property LOC J2 [get_ports {serial_rx}]
+set_property SLEW FAST [get_ports {serial_rx}]
+set_property IOSTANDARD LVCMOS33 [get_ports {serial_rx}]
 
 ###############################################################################
 # SPI
@@ -83,5 +107,6 @@ set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 set_property CFGBVS VCCO [current_design]
+
 
 
