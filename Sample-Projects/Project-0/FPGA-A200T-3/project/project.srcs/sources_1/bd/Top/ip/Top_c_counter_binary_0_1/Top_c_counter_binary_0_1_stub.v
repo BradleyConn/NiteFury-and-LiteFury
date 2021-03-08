@@ -3,8 +3,8 @@
 // Tool Version: Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
 // Date        : Sat Mar  6 15:00:33 2021
 // Host        : bradley-thinkpad running 64-bit Debian GNU/Linux 10 (buster)
-// Command     : write_verilog -force -mode synth_stub
-//               /home/bradley/dev/acorn_vivado_base_project/NiteFury-and-LiteFury/Sample-Projects/Project-0/FPGA-A200T-3/project/project.srcs/sources_1/bd/Top/ip/Top_c_counter_binary_0_1/Top_c_counter_binary_0_1_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top Top_c_counter_binary_0_1 -prefix
+//               Top_c_counter_binary_0_1_ Top_c_counter_binary_0_1_stub.v
 // Design      : Top_c_counter_binary_0_1
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a200tfbg484-3

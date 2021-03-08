@@ -40,7 +40,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# UART_RX, UART_TX
+# MyTopLevel, UART_RX, UART_TX
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -311,6 +311,17 @@ proc create_root_design { parentCell } {
   # Create instance: LED_BLINKER1
   create_hier_cell_LED_BLINKER1 [current_bd_instance .] LED_BLINKER1
 
+  # Create instance: MyTopLevel_0, and set properties
+  set block_name MyTopLevel
+  set block_cell_name MyTopLevel_0
+  if { [catch {set MyTopLevel_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   } elseif { $MyTopLevel_0 eq "" } {
+     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
+     return 1
+   }
+  
   # Create instance: UART_RX_0, and set properties
   set block_name UART_RX
   set block_cell_name UART_RX_0
@@ -333,6 +344,14 @@ proc create_root_design { parentCell } {
      return 1
    }
   
+  # Create instance: axi_uartlite_0, and set properties
+  set axi_uartlite_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_uartlite:2.0 axi_uartlite_0 ]
+  set_property -dict [ list \
+   CONFIG.C_BAUDRATE {115200} \
+   CONFIG.C_S_AXI_ACLK_FREQ_HZ {200000000} \
+   CONFIG.C_S_AXI_ACLK_FREQ_HZ_d {200} \
+ ] $axi_uartlite_0
+
   # Create instance: util_ds_buf_0, and set properties
   set util_ds_buf_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf:2.1 util_ds_buf_0 ]
 
@@ -346,21 +365,23 @@ proc create_root_design { parentCell } {
   set xlconstant_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_2 ]
 
   # Create interface connections
+  connect_bd_intf_net -intf_net MyTopLevel_0_axilitebus [get_bd_intf_pins MyTopLevel_0/axilitebus] [get_bd_intf_pins axi_uartlite_0/S_AXI]
   connect_bd_intf_net -intf_net sys_clk_1 [get_bd_intf_ports sys_clk] [get_bd_intf_pins util_ds_buf_0/CLK_IN_D]
 
   # Create port connections
-  connect_bd_net -net LED_BLINKER1_LED_ON_L [get_bd_ports LED_A4] [get_bd_pins LED_BLINKER1/LED_ON_L]
+  connect_bd_net -net LED_BLINKER1_LED_ON_L [get_bd_ports LED_A4] [get_bd_pins LED_BLINKER1/LED_ON_L] [get_bd_pins MyTopLevel_0/io_send]
   connect_bd_net -net LED_BLINKER_LED_ON_L [get_bd_ports LED_A3] [get_bd_pins LED_BLINKER/LED_ON_L]
   connect_bd_net -net UART_RX_0_o_RX_Byte [get_bd_pins UART_RX_0/o_RX_Byte] [get_bd_pins UART_TX_0/i_TX_Byte]
   connect_bd_net -net UART_RX_0_o_RX_DV [get_bd_pins UART_RX_0/o_RX_DV] [get_bd_pins UART_TX_0/i_TX_DV]
-  connect_bd_net -net UART_TX_0_o_TX_Serial [get_bd_ports serial_tx] [get_bd_pins UART_TX_0/o_TX_Serial]
+  connect_bd_net -net axi_uartlite_0_tx [get_bd_ports serial_tx] [get_bd_pins axi_uartlite_0/tx]
   connect_bd_net -net emc_clk_1 [get_bd_ports emc_clk] [get_bd_pins LED_BLINKER/CLK]
   connect_bd_net -net serial_rx_1 [get_bd_ports serial_rx] [get_bd_pins UART_RX_0/i_RX_Serial]
-  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins LED_BLINKER1/CLK] [get_bd_pins UART_RX_0/i_Clk] [get_bd_pins UART_TX_0/i_Clk] [get_bd_pins util_ds_buf_0/IBUF_OUT]
+  connect_bd_net -net util_ds_buf_0_IBUF_OUT [get_bd_pins LED_BLINKER1/CLK] [get_bd_pins MyTopLevel_0/clk] [get_bd_pins UART_RX_0/i_Clk] [get_bd_pins UART_TX_0/i_Clk] [get_bd_pins axi_uartlite_0/s_axi_aclk] [get_bd_pins util_ds_buf_0/IBUF_OUT]
   connect_bd_net -net xlconstant_1_dout [get_bd_ports LED_A1] [get_bd_pins xlconstant_1/dout]
   connect_bd_net -net xlconstant_2_dout [get_bd_ports LED_A2] [get_bd_pins xlconstant_2/dout]
 
   # Create address segments
+  assign_bd_address -offset 0x40600000 -range 0x00000200 -target_address_space [get_bd_addr_spaces MyTopLevel_0/axilitebus] [get_bd_addr_segs axi_uartlite_0/S_AXI/Reg] -force
 
 
   # Restore current instance

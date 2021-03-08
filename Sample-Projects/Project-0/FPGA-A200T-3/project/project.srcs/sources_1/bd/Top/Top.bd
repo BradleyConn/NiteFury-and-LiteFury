@@ -22,7 +22,9 @@
       "xlconstant_2": "",
       "util_ds_buf_0": "",
       "UART_RX_0": "",
-      "UART_TX_0": ""
+      "UART_TX_0": "",
+      "axi_uartlite_0": "",
+      "MyTopLevel_0": ""
     },
     "interface_ports": {
       "sys_clk": {
@@ -287,9 +289,312 @@
             "direction": "O"
           }
         }
+      },
+      "axi_uartlite_0": {
+        "vlnv": "xilinx.com:ip:axi_uartlite:2.0",
+        "xci_name": "Top_axi_uartlite_0_0",
+        "parameters": {
+          "C_BAUDRATE": {
+            "value": "115200"
+          },
+          "C_S_AXI_ACLK_FREQ_HZ": {
+            "value": "200000000"
+          },
+          "C_S_AXI_ACLK_FREQ_HZ_d": {
+            "value": "200"
+          }
+        }
+      },
+      "MyTopLevel_0": {
+        "vlnv": "xilinx.com:module_ref:MyTopLevel:1.0",
+        "xci_name": "Top_MyTopLevel_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "MyTopLevel",
+          "boundary_crc": "0x0"
+        },
+        "interface_ports": {
+          "axilitebus": {
+            "mode": "Master",
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "address_space_ref": "axilitebus",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0xFFFFFFFF",
+              "width": "32"
+            },
+            "parameters": {
+              "DATA_WIDTH": {
+                "value": "32",
+                "value_src": "constant"
+              },
+              "PROTOCOL": {
+                "value": "AXI4LITE",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "ID_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "ADDR_WIDTH": {
+                "value": "32",
+                "value_src": "constant"
+              },
+              "AWUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "ARUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "WUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "RUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "BUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "READ_WRITE_MODE": {
+                "value": "READ_WRITE",
+                "value_src": "constant"
+              },
+              "HAS_BURST": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_LOCK": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_PROT": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "HAS_CACHE": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_QOS": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_REGION": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_WSTRB": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "HAS_BRESP": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "HAS_RRESP": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "SUPPORTS_NARROW_BURST": {
+                "value": "0",
+                "value_src": "auto"
+              },
+              "NUM_READ_OUTSTANDING": {
+                "value": "1",
+                "value_src": "auto"
+              },
+              "NUM_WRITE_OUTSTANDING": {
+                "value": "1",
+                "value_src": "auto"
+              },
+              "MAX_BURST_LENGTH": {
+                "value": "1",
+                "value_src": "auto"
+              },
+              "CLK_DOMAIN": {
+                "value": "Top_util_ds_buf_0_0_IBUF_OUT",
+                "value_src": "default_prop"
+              }
+            },
+            "port_maps": {
+              "AWADDR": {
+                "physical_name": "axilitebus_awaddr",
+                "direction": "O",
+                "left": "31",
+                "right": "0"
+              },
+              "AWPROT": {
+                "physical_name": "axilitebus_awprot",
+                "direction": "O",
+                "left": "2",
+                "right": "0"
+              },
+              "AWVALID": {
+                "physical_name": "axilitebus_awvalid",
+                "direction": "O"
+              },
+              "AWREADY": {
+                "physical_name": "axilitebus_awready",
+                "direction": "I"
+              },
+              "WDATA": {
+                "physical_name": "axilitebus_wdata",
+                "direction": "O",
+                "left": "31",
+                "right": "0"
+              },
+              "WSTRB": {
+                "physical_name": "axilitebus_wstrb",
+                "direction": "O",
+                "left": "3",
+                "right": "0"
+              },
+              "WVALID": {
+                "physical_name": "axilitebus_wvalid",
+                "direction": "O"
+              },
+              "WREADY": {
+                "physical_name": "axilitebus_wready",
+                "direction": "I"
+              },
+              "BRESP": {
+                "physical_name": "axilitebus_bresp",
+                "direction": "I",
+                "left": "1",
+                "right": "0"
+              },
+              "BVALID": {
+                "physical_name": "axilitebus_bvalid",
+                "direction": "I"
+              },
+              "BREADY": {
+                "physical_name": "axilitebus_bready",
+                "direction": "O"
+              },
+              "ARADDR": {
+                "physical_name": "axilitebus_araddr",
+                "direction": "O",
+                "left": "31",
+                "right": "0"
+              },
+              "ARPROT": {
+                "physical_name": "axilitebus_arprot",
+                "direction": "O",
+                "left": "2",
+                "right": "0"
+              },
+              "ARVALID": {
+                "physical_name": "axilitebus_arvalid",
+                "direction": "O"
+              },
+              "ARREADY": {
+                "physical_name": "axilitebus_arready",
+                "direction": "I"
+              },
+              "RDATA": {
+                "physical_name": "axilitebus_rdata",
+                "direction": "I",
+                "left": "31",
+                "right": "0"
+              },
+              "RRESP": {
+                "physical_name": "axilitebus_rresp",
+                "direction": "I",
+                "left": "1",
+                "right": "0"
+              },
+              "RVALID": {
+                "physical_name": "axilitebus_rvalid",
+                "direction": "I"
+              },
+              "RREADY": {
+                "physical_name": "axilitebus_rready",
+                "direction": "O"
+              }
+            }
+          }
+        },
+        "ports": {
+          "io_interrupt": {
+            "type": "intr",
+            "direction": "I",
+            "parameters": {
+              "SENSITIVITY": {
+                "value": "LEVEL_HIGH",
+                "value_src": "constant"
+              }
+            }
+          },
+          "io_send": {
+            "direction": "I"
+          },
+          "io_led": {
+            "direction": "O"
+          },
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "ASSOCIATED_BUSIF": {
+                "value": "axilitebus",
+                "value_src": "constant"
+              },
+              "ASSOCIATED_RESET": {
+                "value": "reset",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "100000000",
+                "value_src": "ip_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "Top_util_ds_buf_0_0_IBUF_OUT",
+                "value_src": "default_prop"
+              }
+            }
+          },
+          "reset": {
+            "type": "rst",
+            "direction": "I"
+          }
+        },
+        "addressing": {
+          "address_spaces": {
+            "axilitebus": {
+              "range": "4G",
+              "width": "32"
+            }
+          }
+        },
+        "interface_ports": {
+          "axilitebus": {
+            "mode": "Master",
+            "address_space_ref": "axilitebus",
+            "base_address": {
+              "minimum": "0x00000000",
+              "maximum": "0xFFFFFFFF",
+              "width": "32"
+            }
+          }
+        }
       }
     },
     "interface_nets": {
+      "MyTopLevel_0_axilitebus": {
+        "interface_ports": [
+          "MyTopLevel_0/axilitebus",
+          "axi_uartlite_0/S_AXI"
+        ]
+      },
       "sys_clk_1": {
         "interface_ports": [
           "sys_clk",
@@ -301,7 +606,8 @@
       "LED_BLINKER1_LED_ON_L": {
         "ports": [
           "LED_BLINKER1/LED_ON_L",
-          "LED_A4"
+          "LED_A4",
+          "MyTopLevel_0/io_send"
         ]
       },
       "LED_BLINKER_LED_ON_L": {
@@ -321,7 +627,9 @@
           "util_ds_buf_0/IBUF_OUT",
           "LED_BLINKER1/CLK",
           "UART_RX_0/i_Clk",
-          "UART_TX_0/i_Clk"
+          "UART_TX_0/i_Clk",
+          "axi_uartlite_0/s_axi_aclk",
+          "MyTopLevel_0/clk"
         ]
       },
       "xlconstant_2_dout": {
@@ -354,11 +662,26 @@
           "UART_TX_0/i_TX_Byte"
         ]
       },
-      "UART_TX_0_o_TX_Serial": {
+      "axi_uartlite_0_tx": {
         "ports": [
-          "UART_TX_0/o_TX_Serial",
+          "axi_uartlite_0/tx",
           "serial_tx"
         ]
+      }
+    },
+    "addressing": {
+      "/MyTopLevel_0": {
+        "address_spaces": {
+          "axilitebus": {
+            "segments": {
+              "SEG_axi_uartlite_0_Reg": {
+                "address_block": "/axi_uartlite_0/S_AXI/Reg",
+                "offset": "0x40600000",
+                "range": "512"
+              }
+            }
+          }
+        }
       }
     }
   }
